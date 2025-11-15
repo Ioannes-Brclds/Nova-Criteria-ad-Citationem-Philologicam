@@ -7,6 +7,7 @@
 \ExecuteBibliographyOptions{giveninits=true, maxnames=99}
 \DeclareNameAlias{default}{family-given}
 \DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{casual}{default}
 %
 \protected\def\mkbibnamelastdelim{\ifnum\value{listcount}>\c@maxnames\else\text{\addspace\&}\fi\addspace}
 \protected\def\mkbibnameyeardelim{\addspace}
@@ -40,6 +41,24 @@
     \addperiod
   }%
 }
+
+\newbibmacro*{printtomevolume}{%
+  \iffieldundef{tomus}{}{%
+    \setunit{\addspace}%
+    \printtext[parens]{%
+      \printtext{t.\addspace}\printfield{tomus}%
+      \iffieldundef{volume}{}{%
+        \setunit{\addcomma\space}%
+        \printtext{v.\addspace}\printfield{volume}%
+      }%
+      \iffieldundef{fasciculus}{}{% 
+        \setunit{\addcomma\space}%
+        \printtext{fasc.\addspace}\printfield{fasciculus}%
+      }%
+    }%
+    \addperiod
+  }%
+}
 %
 \newbibmacro*{serie+number}{%
     \iffieldundef{series}{}{%
@@ -60,17 +79,31 @@
     }}{}%
 }
 %
+\newbibmacro*{printroles}{%
+  \iffieldundef{rauthor}{%
+    \ifnameundef{casual}{}{% 
+      \setunit{\addspace}%
+      \printtext[parens]{%
+        \printfield{role}\printtext{=}\addspace\printnames{casual}%
+      }%
+      \addperiod
+    }%
+  }{%
+    \setunit{\addspace}%
+    \printtext[parens]{%
+      \printfield{role}\printtext{=}\addspace\printfield{rauthor}%
+    }%
+    \addperiod
+  }%
+}
+%
 \DeclareBibliographyDriver{book}{%
   \usebibmacro{begentry}%
   \printnames{author}%
   \setunit{\addspace}\usebibmacro{quickdate}%
   \newunit
   \printfield{title}%
-  \ifnameundef{rauthor}{\addperiod}{%
-    \setunit{\addspace}%
-    \printtext[parens]{\printfield{role}\printtext{=}\addspace\printnames{rauthor}}%
-    \addperiod
-  }%
+  \usebibmacro{printroles}% 
   \usebibmacro{printvolumetome}%
   \newunit
   \printlist{publisher}%
@@ -90,10 +123,17 @@
   \setunit{\addspace}\usebibmacro{quickdate}%
   \newunit
   \printfield{title}%
+  \usebibmacro{printroles}% 
   \newunit
   \printfield{journaltitle}%
   \setunit{\addcomma\space}%
-  \printfield{volume}\printfield{number}%
+  \printfield{volume}%
+  %
+  \iffieldundef{number}{}{%
+    \setunit{\addspace}%
+    \printtext[parens]{\printfield{number}}%
+  }%
+  %
   \setunit{\addcomma\space}\printfield{pages}%
   \newunit
   \printlist{publisher}%
@@ -111,6 +151,7 @@
   \setunit{\addspace}\usebibmacro{quickdate}%
   \newunit
   \printfield{title}%
+  \usebibmacro{printroles}% 
   \newunit
   \printfield{url}%
   \ifbibstring{nodate}{\setunit{\adddot\addspace}}{}%
@@ -127,6 +168,7 @@
   \setunit{\addspace}\usebibmacro{quickdate}%
   \newunit
   \printfield{title}%
+  \usebibmacro{printroles}% 
   \addperiod\space
   \printfield{booktitle}%
   \setunit{\addspace}%

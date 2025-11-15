@@ -1,4 +1,4 @@
-\DeclareDatamodelFields[type=list,datatype=name]{rauthor}
+\DeclareDatamodelFields[type=field,datatype=literal]{rauthor}
 \DeclareDatamodelFields[type=field,datatype=literal]{role}
 \DeclareDatamodelEntryfields{rauthor,role}
 \DeclareDatamodelFields[type=field,datatype=literal]{sigla}
@@ -7,3 +7,5 @@
 \DeclareDatamodelEntryfields{tomus}
 \DeclareDatamodelFields[type=field,datatype=literal]{fasciculus}
 \DeclareDatamodelEntryfields{fasciculus}
+\DeclareDatamodelFields[type=list,datatype=name]{casual}
+\DeclareDatamodelEntryfields{casual,role}
