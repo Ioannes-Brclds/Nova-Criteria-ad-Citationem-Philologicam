@@ -1,5 +1,0 @@
-\ProvidesFile{nccph.blx}[2025/11/14 Biblatex style package "Nova criteria ad citationem philologicam"]
-%
-\RequireCitationStyle{nccph.cbx}
-\RequireBibliographyStyle{nccph.bbx}
-\endinput
